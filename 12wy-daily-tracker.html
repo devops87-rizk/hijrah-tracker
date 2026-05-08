@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12 Week Year · Tracker Hijrah Madinah</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   TOKENS
+══════════════════════════════════════════ */
+:root {
+  --bg:        #0F1110;
+  --bg2:       #161918;
+  --bg3:       #1E2220;
+  --bg4:       #252926;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.12);
+
+  --text:      #EDE8DF;
+  --text2:     #9E9A91;
+  --text3:     #5C5950;
+
+  --gold:      #D4A84B;
+  --gold2:     #F0CC7A;
+  --gold-bg:   rgba(212,168,75,0.12);
+  --gold-dim:  rgba(212,168,75,0.06);
+
+  --green:     #3AAD72;
+  --green-bg:  rgba(58,173,114,0.12);
+  --blue:      #4A8FD4;
+  --blue-bg:   rgba(74,143,212,0.12);
+  --rose:      #D4636B;
+  --rose-bg:   rgba(212,99,107,0.12);
+  --violet:    #8B6FD4;
+  --violet-bg: rgba(139,111,212,0.12);
+
+  --radius:    14px;
+  --radius-sm: 8px;
+  --font-body: 'Nunito', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-serif:'Instrument Serif', serif;
+  --font-ar:   'Amiri', serif;
+}
+
+/* ══════════════════════════════════════════
+   RESET & BASE
+══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* grain overlay */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: .6;
+}
+
+.wrap { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 28px 18px 100px; }
+
+/* ══════════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════════ */
+@keyframes slideUp   { from { opacity:0; transform:translateY(16px) } to { opacity:1; transform:translateY(0) } }
+@keyframes pop       { 0%{transform:scale(1)} 40%{transform:scale(1.18)} 100%{transform:scale(1)} }
+@keyframes shimmer   { 0%,100%{opacity:.5} 50%{opacity:1} }
+@keyframes spinCheck { from{transform:scale(0) rotate(-20deg)} to{transform:scale(1) rotate(0deg)} }
+
+.fade-in { opacity:0; animation: slideUp .5s ease forwards; }
+.fade-in:nth-child(1){animation-delay:.05s}
+.fade-in:nth-child(2){animation-delay:.1s}
+.fade-in:nth-child(3){animation-delay:.15s}
+.fade-in:nth-child(4){animation-delay:.2s}
+.fade-in:nth-child(5){animation-delay:.25s}
+.fade-in:nth-child(6){animation-delay:.3s}
+
+/* ══════════════════════════════════════════
+   TOP HEADER
+══════════════════════════════════════════ */
+.app-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  animation: slideUp .5s ease forwards;
+}
+.header-title-group {}
+.bismillah {
+  font-family: var(--font-ar);
+  font-size: 1.35rem;
+  color: var(--gold);
+  letter-spacing: .03em;
+  margin-bottom: 6px;
+}
+.app-name {
+  font-family: var(--font-serif);
+  font-size: 1.7rem;
+  color: var(--text);
+  line-height: 1.1;
+  font-style: italic;
+}
+.app-vision {
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-top: 5px;
+  font-weight: 600;
+}
+.header-meta {
+  text-align: right;
+  flex-shrink: 0;
+}
+.meta-date {
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  color: var(--text);
+  font-weight: 500;
+  line-height: 1;
+}
+.meta-day {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 5px;
+}
+.meta-week-badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--gold-bg);
+  border: 1px solid rgba(212,168,75,.25);
+  font-size: 11px;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* ══════════════════════════════════════════
+   TAB BAR (VIEW SWITCHER)
+══════════════════════════════════════════ */
+.tab-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 22px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 5px;
+  opacity: 0;
+  animation: slideUp .5s ease forwards .08s;
+}
+.tab-btn {
+  flex: 1; padding: 9px 6px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text2);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: .03em;
+  white-space: nowrap;
+}
+.tab-btn:hover { background: var(--bg3); color: var(--text); }
+.tab-btn.active { background: var(--bg4); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.4); }
+
+/* panels */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ══════════════════════════════════════════
+   DAILY PANEL
+══════════════════════════════════════════ */
+
+/* day nav */
+.day-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.day-arrow {
+  width: 34px; height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border2);
+  background: var(--bg2);
+  color: var(--text2);
+  font-size: 15px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+  flex-shrink: 0;
+}
+.day-arrow:hover { background: var(--bg3); color: var(--text); }
+.day-arrow:disabled { opacity: .3; cursor: default; }
+
+.day-chips {
+  display: flex; gap: 6px; flex: 1;
+  overflow-x: auto; scrollbar-width: none;
+}
+.day-chips::-webkit-scrollbar { display: none; }
+
+.day-chip {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 6px 10px; border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer; min-width: 48px; flex-shrink: 0;
+  transition: all .15s;
+}
+.day-chip:hover { background: var(--bg3); }
+.day-chip.active { background: var(--gold); border-color: var(--gold); }
+.day-chip.has-entry { border-color: var(--border2); }
+.chip-name { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); }
+.day-chip.active .chip-name { color: var(--bg); }
+.chip-num { font-family: var(--font-mono); font-size: 16px; color: var(--text); line-height: 1; }
+.day-chip.active .chip-num { color: var(--bg); font-weight: 500; }
+.chip-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); opacity: 0; }
+.day-chip.has-entry .chip-dot { opacity: 1; }
+.day-chip.active .chip-dot { background: var(--bg); opacity: .5; }
+
+/* daily quote */
+.qbox {
+  display: flex; gap: 12px; align-items: stretch;
+  background: var(--gold-dim);
+  border: 1px solid rgba(212,168,75,.15);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+.qbox-bar { width: 3px; border-radius: 2px; background: var(--gold); flex-shrink: 0; }
+.qbox-ar  { font-family: var(--font-ar); font-size: 1.15rem; color: var(--gold2); line-height: 1.8; }
+.qbox-tr  { font-size: 11px; color: var(--text2); margin-top: 3px; }
+
+/* overall bar */
+.ov-bar-wrap {
+  margin-bottom: 18px;
+}
+.ov-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:7px; }
+.ov-label  { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text3); }
+.ov-score  { font-family:var(--font-mono); font-size:1.5rem; color:var(--text); font-weight:500; }
+.ov-track  { height:8px; border-radius:4px; background:var(--bg3); overflow:hidden; }
+.ov-fill   {
+  height:100%; border-radius:4px;
+  background: linear-gradient(90deg, var(--green) 0%, var(--gold) 100%);
+  transition: width .6s cubic-bezier(.4,0,.2,1);
+}
+.ov-target { font-size:11px; color:var(--text3); margin-top:5px; }
+.ov-target span { color: var(--gold); font-weight: 600; }
+
+/* mini score cards */
+.mini-scores {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.mini-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 10px 8px;
+  position: relative; overflow: hidden;
+}
+.mini-card::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+}
+.mc-ib::after  { background: var(--gold); }
+.mc-wp::after  { background: var(--blue); }
+.mc-en::after  { background: var(--green); }
+.mc-des::after { background: var(--violet); }
+.mc-fam::after { background: var(--rose); }
+.mini-lbl { font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text3); margin-bottom:4px; }
+.mini-pct { font-family:var(--font-mono); font-size:1.15rem; color:var(--text); font-weight:500; }
+
+/* section cards */
+.sec-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.sec-card:hover { border-color: var(--border2); }
+
+.sec-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+.sec-icon {
+  width: 34px; height: 34px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0;
+}
+.ic-ib  { background: var(--gold-bg); }
+.ic-wp  { background: var(--blue-bg); }
+.ic-en  { background: var(--green-bg); }
+.ic-des { background: var(--violet-bg); }
+.ic-fam { background: var(--rose-bg); }
+
+.sec-info { flex: 1; }
+.sec-name { font-size: 13px; font-weight: 700; color: var(--text); }
+.sec-sub  { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+.sec-badge {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 500;
+  padding: 4px 11px; border-radius: 20px;
+}
+.sb-ib  { background: var(--gold-bg);   color: var(--gold); }
+.sb-wp  { background: var(--blue-bg);   color: var(--blue); }
+.sb-en  { background: var(--green-bg);  color: var(--green); }
+.sb-des { background: var(--violet-bg); color: var(--violet); }
+.sb-fam { background: var(--rose-bg);   color: var(--rose); }
+
+.sec-chevron { color: var(--text3); font-size: 12px; transition: transform .2s; }
+.sec-card.open .sec-chevron { transform: rotate(90deg); }
+
+/* task rows */
+.task-list { padding: 4px 0 6px; }
+.task-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: background .12s;
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+.task-row:last-child { border-bottom: none; }
+.task-row:hover { background: var(--bg3); }
+.task-row.done .task-txt { color: var(--text3); text-decoration: line-through; }
+
+/* custom checkbox */
+.cbox {
+  width: 20px; height: 20px; border-radius: 6px;
+  border: 1.5px solid var(--text3);
+  flex-shrink: 0; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .18s;
+  position: relative;
+}
+.cbox.ch-ib  { background: var(--gold);   border-color: var(--gold); }
+.cbox.ch-wp  { background: var(--blue);   border-color: var(--blue); }
+.cbox.ch-en  { background: var(--green);  border-color: var(--green); }
+.cbox.ch-des { background: var(--violet); border-color: var(--violet); }
+.cbox.ch-fam { background: var(--rose);   border-color: var(--rose); }
+.cbox.ch-ib .chk,.cbox.ch-wp .chk,.cbox.ch-en .chk,.cbox.ch-des .chk,.cbox.ch-fam .chk {
+  opacity: 1; transform: scale(1) rotate(0deg);
+}
+.chk {
+  color: #fff; font-size: 11px; font-weight: 800;
+  opacity: 0; transform: scale(0) rotate(-20deg);
+  transition: all .18s cubic-bezier(.34,1.56,.64,1);
+}
+
+.task-body { flex: 1; min-width: 0; }
+.task-txt { font-size: 13px; color: var(--text); line-height: 1.45; transition: color .15s; }
+.task-time { font-family: var(--font-mono); font-size: 10px; color: var(--text3); margin-top: 2px; letter-spacing: .04em; }
+
+.task-tag {
+  font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 12px; flex-shrink: 0; align-self: center;
+}
+.tg-wajib   { background: rgba(212,99,107,.18); color: var(--rose); }
+.tg-sunnah  { background: var(--gold-bg); color: var(--gold); }
+.tg-daily   { background: var(--bg3); color: var(--text3); }
+.tg-target  { background: var(--blue-bg); color: var(--blue); }
+
+/* notes */
+.notes-wrap { padding: 12px 16px 14px; border-top: 1px solid var(--border); }
+.notes-lbl { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); margin-bottom: 7px; }
+.notes-ta {
+  width: 100%; min-height: 70px; resize: none;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 9px 12px;
+  font-family: var(--font-body); font-size: 13px; color: var(--text);
+  line-height: 1.6; transition: border-color .15s;
+}
+.notes-ta:focus { outline: none; border-color: var(--gold); }
+.notes-ta::placeholder { color: var(--text3); }
+
+/* ══════════════════════════════════════════
+   WEEKLY PANEL
+══════════════════════════════════════════ */
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.week-cell {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all .15s;
+  position: relative;
+}
+.week-cell:hover { border-color: var(--border2); background: var(--bg3); }
+.week-cell.current { border-color: var(--gold); }
+.week-cell.current::before {
+  content: 'AKTIF';
+  position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+  background: var(--gold); color: var(--bg);
+  font-size: 8px; font-weight: 800; letter-spacing: .1em;
+  padding: 2px 7px; border-radius: 20px;
+}
+.wc-num { font-family: var(--font-mono); font-size: 10px; color: var(--text3); margin-bottom: 4px; letter-spacing: .06em; }
+.wc-score { font-family: var(--font-mono); font-size: 1.5rem; color: var(--text); font-weight: 500; }
+.wc-score.target-hit { color: var(--green); }
+.wc-score.below { color: var(--rose); }
+.wc-bar { height: 3px; background: var(--bg3); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+.wc-bar-fill { height: 100%; border-radius: 2px; transition: width .4s ease; }
+.wc-dots { display: flex; gap: 3px; margin-top: 8px; flex-wrap: wrap; }
+.wc-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+}
+.dot-full    { background: var(--green); }
+.dot-partial { background: var(--gold); }
+.dot-empty   { background: var(--bg4); }
+.dot-future  { background: var(--bg3); border: 1px solid var(--border2); }
+
+/* weekly reflection */
+.refl-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 12px;
+}
+.refl-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.refl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.refl-item label { display: block; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+.refl-ta {
+  width: 100%; min-height: 64px; resize: vertical;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 8px 11px;
+  font-family: var(--font-body); font-size: 13px; color: var(--text); line-height: 1.6;
+  transition: border-color .15s;
+}
+.refl-ta:focus { outline: none; border-color: var(--gold); }
+.refl-ta::placeholder { color: var(--text3); }
+
+/* week selector bar */
+.week-sel-bar {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
+}
+.week-sel-label {
+  font-size: 13px; font-weight: 700; color: var(--text); flex: 1;
+}
+.week-sel-btn {
+  padding: 6px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border2);
+  background: var(--bg2); color: var(--text2);
+  font-family: var(--font-body); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all .15s;
+}
+.week-sel-btn:hover { background: var(--bg3); color: var(--text); }
+
+/* ══════════════════════════════════════════
+   PROGRESS PANEL (12-week overview)
+══════════════════════════════════════════ */
+.prog-header {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+.prog-vision-lbl { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.prog-vision-text { font-family: var(--font-serif); font-size: 1.2rem; font-style: italic; color: var(--text); line-height: 1.3; }
+.prog-big-num { font-family: var(--font-mono); font-size: 3rem; color: var(--gold); font-weight: 500; text-align: right; line-height: 1; }
+.prog-big-lbl { font-size: 10px; color: var(--text3); text-align: right; letter-spacing: .06em; margin-top: 4px; }
+
+/* 12-week timeline */
+.timeline-12 {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.tl-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); margin-bottom: 14px; }
+.tl-row { display: grid; grid-template-columns: 70px 1fr 50px; gap: 12px; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border); }
+.tl-row:last-child { border-bottom: none; }
+.tl-week { font-family: var(--font-mono); font-size: 11px; color: var(--text3); }
+.tl-week.cur { color: var(--gold); font-weight: 500; }
+.tl-track { height: 8px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
+.tl-fill { height: 100%; border-radius: 4px; transition: width .5s ease; }
+.fill-good    { background: var(--green); }
+.fill-ok      { background: var(--gold); }
+.fill-low     { background: var(--rose); }
+.fill-current { background: linear-gradient(90deg, var(--blue), var(--violet)); animation: shimmer 2s infinite; }
+.fill-future  { background: var(--bg4); }
+.tl-pct { font-family: var(--font-mono); font-size: 11px; color: var(--text2); text-align: right; }
+
+/* area breakdown */
+.area-breakdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.ab-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.ab-icon { font-size: 1.5rem; margin-bottom: 8px; }
+.ab-name { font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--text2); margin-bottom: 6px; }
+.ab-pct  { font-family: var(--font-mono); font-size: 1.6rem; color: var(--text); font-weight: 500; }
+.ab-bar  { height: 4px; background: var(--bg3); border-radius: 2px; margin-top: 10px; overflow: hidden; }
+.ab-fill { height: 100%; border-radius: 2px; transition: width .5s ease; }
+
+/* ══════════════════════════════════════════
+   BOTTOM SAVE BAR
+══════════════════════════════════════════ */
+.save-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  background: var(--bg2);
+  border-top: 1px solid var(--border2);
+  padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.save-info { font-size: 12px; color: var(--text3); display: flex; align-items: center; gap: 7px; }
+.save-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: shimmer 2.5s infinite; }
+.save-btns { display: flex; gap: 8px; }
+.btn {
+  padding: 8px 18px; border-radius: var(--radius-sm);
+  font-family: var(--font-body); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .15s; border: 1px solid transparent;
+}
+.btn-ghost {
+  background: var(--bg3); border-color: var(--border2); color: var(--text2);
+}
+.btn-ghost:hover { background: var(--bg4); color: var(--text); }
+.btn-gold {
+  background: var(--gold); color: var(--bg); border-color: var(--gold);
+}
+.btn-gold:hover { background: var(--gold2); }
+.btn-danger {
+  background: transparent; border-color: rgba(212,99,107,.3); color: var(--rose);
+}
+.btn-danger:hover { background: var(--rose-bg); }
+
+/* responsive */
+@media(max-width:600px){
+  .mini-scores { grid-template-columns: repeat(3,1fr); }
+  .week-grid { grid-template-columns: repeat(3,1fr); }
+  .refl-grid { grid-template-columns: 1fr; }
+  .area-breakdown { grid-template-columns: repeat(2,1fr); }
+  .prog-header { grid-template-columns: 1fr; }
+  .prog-big-num { text-align: left; }
+  .prog-big-lbl { text-align: left; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ══ TOP HEADER ══ -->
+<div class="app-header">
+  <div class="header-title-group">
+    <div class="bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+    <div class="app-name">12 Week Year · Hijrah Tracker</div>
+    <div class="app-vision">Visi: Tinggal &amp; bekerja di Madinah Al-Munawwarah sebelum usia 42</div>
+  </div>
+  <div class="header-meta">
+    <div class="meta-date" id="hdr-date">—</div>
+    <div class="meta-day" id="hdr-day">—</div>
+    <div class="meta-week-badge" id="hdr-week">Minggu —</div>
+  </div>
+</div>
+
+<!-- ══ TAB BAR ══ -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('daily',this)">📋 Harian</button>
+  <button class="tab-btn" onclick="switchTab('weekly',this)">📆 Mingguan</button>
+  <button class="tab-btn" onclick="switchTab('progress',this)">📊 Progres 12 Minggu</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PANEL: DAILY
+══════════════════════════════════════════ -->
+<div class="panel active" id="panel-daily">
+
+  <!-- day navigation chips -->
+  <div class="day-nav fade-in">
+    <button class="day-arrow" id="prev-day" onclick="navDay(-1)">&#8592;</button>
+    <div class="day-chips" id="day-chips"></div>
+    <button class="day-arrow" id="next-day" onclick="navDay(1)">&#8594;</button>
+  </div>
+
+  <!-- quote -->
+  <div class="qbox fade-in">
+    <div class="qbox-bar"></div>
+    <div>
+      <div class="qbox-ar" id="q-ar">—</div>
+      <div class="qbox-tr" id="q-tr">—</div>
+    </div>
+  </div>
+
+  <!-- overall bar -->
+  <div class="ov-bar-wrap fade-in">
+    <div class="ov-header">
+      <span class="ov-label">Skor hari ini</span>
+      <span class="ov-score" id="ov-score">0%</span>
+    </div>
+    <div class="ov-track"><div class="ov-fill" id="ov-fill" style="width:0%"></div></div>
+    <div class="ov-target" id="ov-target">0 dari 0 tugas · Target harian <span>≥ 85%</span></div>
+  </div>
+
+  <!-- mini scores -->
+  <div class="mini-scores fade-in">
+    <div class="mini-card mc-ib"><div class="mini-lbl">Ibadah</div><div class="mini-pct" id="ms-ib">0%</div></div>
+    <div class="mini-card mc-wp"><div class="mini-lbl">WordPress</div><div class="mini-pct" id="ms-wp">0%</div></div>
+    <div class="mini-card mc-en"><div class="mini-lbl">English</div><div class="mini-pct" id="ms-en">0%</div></div>
+    <div class="mini-card mc-des"><div class="mini-lbl">Desain</div><div class="mini-pct" id="ms-des">0%</div></div>
+    <div class="mini-card mc-fam"><div class="mini-lbl">Keluarga</div><div class="mini-pct" id="ms-fam">0%</div></div>
+  </div>
+
+  <!-- checklist sections -->
+  <div id="daily-sections"></div>
+
+  <!-- notes -->
+  <div class="sec-card fade-in" style="margin-bottom:80px">
+    <div class="sec-head" style="cursor:default">
+      <div class="sec-icon" style="background:var(--bg3)">📝</div>
+      <div class="sec-info">
+        <div class="sec-name">Catatan & Refleksi Harian</div>
+        <div class="sec-sub">Syukur, pencapaian, hambatan hari ini</div>
+      </div>
+    </div>
+    <div class="notes-wrap">
+      <div class="notes-lbl">Catatan</div>
+      <textarea class="notes-ta" id="daily-notes" placeholder="Tulis syukur, pencapaian kecil, atau doa hari ini…"></textarea>
+    </div>
+  </div>
+
+</div><!-- /panel-daily -->
+
+<!-- ══════════════════════════════════════════
+     PANEL: WEEKLY
+══════════════════════════════════════════ -->
+<div class="panel" id="panel-weekly">
+
+  <div class="week-sel-bar fade-in">
+    <div class="week-sel-label" id="wk-sel-label">Minggu — dari 12</div>
+    <button class="week-sel-btn" onclick="navWeekSel(-1)">&#8592; Sebelumnya</button>
+    <button class="week-sel-btn" onclick="navWeekSel(1)">Berikutnya &#8594;</button>
+  </div>
+
+  <!-- 12-week grid (small) -->
+  <div class="week-grid fade-in" id="week-grid"></div>
+
+  <!-- weekly reflection form -->
+  <div class="refl-card fade-in">
+    <div class="refl-title">✍️ Refleksi Minggu <span id="refl-week-num">—</span></div>
+    <div class="refl-grid">
+      <div class="refl-item">
+        <label>🏆 Pencapaian terbesar minggu ini</label>
+        <textarea class="refl-ta" id="refl-win" placeholder="Tulis di sini…"></textarea>
+      </div>
+      <div class="refl-item">
+        <label>🔧 Yang perlu diperbaiki minggu depan</label>
+        <textarea class="refl-ta" id="refl-improve" placeholder="Tulis di sini…"></textarea>
+      </div>
+      <div class="refl-item">
+        <label>🚧 Hambatan yang dihadapi</label>
+        <textarea class="refl-ta" id="refl-obstacle" placeholder="Tulis di sini…"></textarea>
+      </div>
+      <div class="refl-item">
+        <label>🕌 Skor ibadah (1–10) + catatan</label>
+        <textarea class="refl-ta" id="refl-ibadah" placeholder="Contoh: 8 — shalat tepat waktu, tilawah 5 hari…"></textarea>
+      </div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-gold" onclick="saveWeeklyReflection()">💾 Simpan &amp; Lanjut ke Minggu Berikutnya</button>
+      <button class="btn btn-ghost" onclick="saveWeeklyReflectionOnly()">Simpan saja</button>
+    </div>
+  </div>
+
+  <!-- daily breakdown for selected week -->
+  <div class="refl-card fade-in" id="wk-day-breakdown">
+    <div class="refl-title">📅 Progres Harian — Minggu <span id="wkbd-num">—</span></div>
+    <div id="wkbd-content"></div>
+  </div>
+
+</div><!-- /panel-weekly -->
+
+<!-- ══════════════════════════════════════════
+     PANEL: PROGRESS
+══════════════════════════════════════════ -->
+<div class="panel" id="panel-progress">
+
+  <div class="prog-header fade-in">
+    <div>
+      <div class="prog-vision-lbl">Visi Utama</div>
+      <div class="prog-vision-text">Tinggal &amp; bekerja di kota Nabi ﷺ<br>— Madinah Al-Munawwarah, sebelum usia 42</div>
+    </div>
+    <div>
+      <div class="prog-big-num" id="prog-overall">0%</div>
+      <div class="prog-big-lbl">progres keseluruhan<br><span id="prog-weeks-done">0</span> / 12 minggu</div>
+    </div>
+  </div>
+
+  <!-- 12-week timeline -->
+  <div class="timeline-12 fade-in">
+    <div class="tl-label">12 Minggu · Garis Waktu Siklus</div>
+    <div id="tl-rows"></div>
+  </div>
+
+  <!-- area breakdown -->
+  <div style="margin-bottom:10px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3)" class="fade-in">Progres per area (rata-rata seluruh siklus)</div>
+  <div class="area-breakdown fade-in" id="area-breakdown"></div>
+
+  <!-- reset -->
+  <div class="fade-in" style="margin-top:20px;margin-bottom:80px">
+    <button class="btn btn-danger" onclick="newCycle()">🔄 Mulai Siklus 12 Minggu Baru</button>
+  </div>
+
+</div><!-- /panel-progress -->
+
+</div><!-- /wrap -->
+
+<!-- ══ SAVE BAR ══ -->
+<div class="save-bar">
+  <div class="save-info">
+    <div class="save-dot"></div>
+    <span id="save-txt">Data tersimpan otomatis</span>
+  </div>
+  <div class="save-btns">
+    <button class="btn btn-ghost" onclick="resetToday()">Reset hari ini</button>
+    <button class="btn btn-gold" onclick="forceSave()">💾 Simpan</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+/* ── CONSTANTS ── */
+const DAY_ID = ['Ahad','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const MON_ID = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const KEY    = '12wy_hijrah_v3';
+
+const QUOTES = [
+  { ar:'إِنَّ مَعَ الْعُسْرِ يُسْرًا', tr:'Sesungguhnya bersama kesulitan ada kemudahan. (QS. Al-Insyirah: 6)' },
+  { ar:'وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا', tr:'Barangsiapa bertakwa kepada Allah, niscaya Dia membukakan jalan keluar baginya. (QS. At-Talaq: 2)' },
+  { ar:'فَاصْبِرْ إِنَّ وَعْدَ اللَّهِ حَقٌّ', tr:'Bersabarlah, sesungguhnya janji Allah itu benar. (QS. Ghafir: 55)' },
+  { ar:'اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا', tr:'Ya Allah, tidak ada kemudahan kecuali apa yang Engkau jadikan mudah. (Doa Nabi ﷺ)' },
+  { ar:'مَن سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ', tr:'Barangsiapa menempuh jalan mencari ilmu, Allah mudahkan jalannya ke surga. (HR. Muslim)' },
+  { ar:'خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ', tr:'Sebaik-baik manusia adalah yang paling bermanfaat bagi sesama. (HR. Ahmad)' },
+  { ar:'وَبَشِّرِ الصَّابِرِينَ', tr:'Sampaikanlah kabar gembira kepada orang-orang yang sabar. (QS. Al-Baqarah: 155)' },
+];
+
+/* ── SECTIONS CONFIG ── */
+const SECTIONS = [
+  {
+    id:'ib', name:'Ibadah & Ruhiyah', sub:'Fondasi utama — tidak ada yang boleh terlewat',
+    icon:'🕌', icClass:'ic-ib', sbClass:'sb-ib', chClass:'ch-ib', msId:'ms-ib',
+    tasks:[
+      { t:'Shalat Subuh tepat waktu', time:'04:00', tag:'wajib' },
+      { t:'Dzikir pagi lengkap', time:'04:15–04:30', tag:'sunnah' },
+      { t:'Tilawah Al-Qur\'an (min. 1 halaman)', time:'04:00–04:35', tag:'daily' },
+      { t:'Muraja\'ah hafalan Juz 30', time:'04:25–04:35', tag:'daily' },
+      { t:'Shalat Dzuhur tepat waktu', time:'12:00', tag:'wajib' },
+      { t:'Shalat Ashar tepat waktu', time:'15:30', tag:'wajib' },
+      { t:'Dzikir petang lengkap', time:'17:50–18:05', tag:'sunnah' },
+      { t:'Shalat Maghrib berjama\'ah', time:'18:00', tag:'wajib' },
+      { t:'Shalat Isya berjama\'ah', time:'20:00', tag:'wajib' },
+      { t:'Doa bersama anak sebelum tidur', time:'20:20–20:30', tag:'daily' },
+      { t:'Tidur tepat 22:30 (istirahat cukup)', time:'22:30', tag:'daily' },
+    ]
+  },
+  {
+    id:'wp', name:'WordPress Development', sub:'Min. 45 mnt pagi + 60 mnt malam = ~1,75 jam/hari',
+    icon:'💻', icClass:'ic-wp', sbClass:'sb-wp', chClass:'ch-wp', msId:'ms-wp',
+    tasks:[
+      { t:'Sesi WP pagi (04:35–05:20)', time:'04:35–05:20', tag:'daily' },
+      { t:'Tutorial / baca dokumentasi WP', time:'', tag:'daily' },
+      { t:'Praktik Elementor / WooCommerce / plugin', time:'', tag:'target' },
+      { t:'Kerjakan project atau task klien aktif', time:'', tag:'target' },
+      { t:'Sesi WP malam (20:30–21:30)', time:'20:30–21:30', tag:'daily' },
+      { t:'Kirim min. 1 proposal Fiverr / Upwork', time:'', tag:'target' },
+      { t:'Update portofolio atau review hasil kerja', time:'', tag:'daily' },
+    ]
+  },
+  {
+    id:'en', name:'Bahasa Inggris', sub:'Min. 30 mnt/hari — target IELTS 5.5 di tahun ke-2',
+    icon:'🌍', icClass:'ic-en', sbClass:'sb-en', chClass:'ch-en', msId:'ms-en',
+    tasks:[
+      { t:'Duolingo min. 10 menit', time:'05:20–05:30', tag:'daily' },
+      { t:'Hafal 10 kosakata baru', time:'05:30–05:40', tag:'daily' },
+      { t:'Dengar podcast / BBC English', time:'05:40–05:50', tag:'daily' },
+      { t:'Speaking practice / rekam suara sendiri', time:'21:30–21:45', tag:'target' },
+      { t:'Journaling 3 kalimat bahasa Inggris', time:'21:45–21:55', tag:'daily' },
+      { t:'Nonton konten Inggris tanpa subtitle', time:'malam', tag:'sunnah' },
+    ]
+  },
+  {
+    id:'des', name:'Desain Grafis', sub:'Canva → Figma → Photoshop → Illustrator',
+    icon:'🎨', icClass:'ic-des', sbClass:'sb-des', chClass:'ch-des', msId:'ms-des',
+    tasks:[
+      { t:'Sesi desain sore (17:20–17:50)', time:'17:20–17:50', tag:'daily' },
+      { t:'Tutorial Canva / Figma hari ini', time:'', tag:'daily' },
+      { t:'Latihan Adobe Illustrator (logo/vektor)', time:'', tag:'target' },
+      { t:'Latihan Photoshop (editing/manipulasi)', time:'', tag:'target' },
+      { t:'Buat 1 karya desain selesai hari ini', time:'', tag:'target' },
+      { t:'Upload desain ke folder portofolio', time:'', tag:'daily' },
+    ]
+  },
+  {
+    id:'fam', name:'Keluarga & Fisik', sub:'Investasi akhirat — hadir sepenuhnya',
+    icon:'👨‍👩‍👧‍👦', icClass:'ic-fam', sbClass:'sb-fam', chClass:'ch-fam', msId:'ms-fam',
+    tasks:[
+      { t:'Olahraga pagi 20 menit', time:'05:50–06:10', tag:'daily' },
+      { t:'Sarapan bersama keluarga', time:'06:10–06:45', tag:'daily' },
+      { t:'Quality time anak (HP dijauhkan)', time:'18:20–19:30', tag:'wajib' },
+      { t:'Makan malam bersama keluarga', time:'19:30–20:00', tag:'daily' },
+      { t:'Ngobrol / diskusi dengan istri', time:'malam', tag:'daily' },
+      { t:'Nabung Dana Hijrah hari ini', time:'', tag:'target' },
+    ]
+  },
+];
+
+/* ── STATE ── */
+let state   = loadState();
+let viewDay = todayKey();        // YYYY-MM-DD
+let viewWeekSel = state.currentWeek; // 1–12
+
+let saveTimer = null;
+
+/* ── STORAGE ── */
+function todayKey(){ return new Date().toISOString().slice(0,10); }
+
+function defaultState(){
+  const weeks = [];
+  for(let w=1;w<=12;w++){
+    weeks.push({ refl:{ win:'',improve:'',obstacle:'',ibadah:'' } });
+  }
+  return { currentWeek:1, weeks, days:{}, startDate: todayKey() };
+}
+
+function loadState(){
+  try{ const s=localStorage.getItem(KEY); if(s) return JSON.parse(s); }catch(e){}
+  return defaultState();
+}
+
+function saveState(){
+  try{
+    localStorage.setItem(KEY,JSON.stringify(state));
+    const t=new Date();
+    document.getElementById('save-txt').textContent =
+      'Tersimpan ' + t.getHours().toString().padStart(2,'0')+':'+t.getMinutes().toString().padStart(2,'0');
+  }catch(e){}
+}
+
+function getDay(k){
+  if(!state.days[k]){
+    state.days[k]={ tasks:{}, notes:'' };
+    SECTIONS.forEach(s=>{ state.days[k].tasks[s.id]=new Array(s.tasks.length).fill(false); });
+  }
+  return state.days[k];
+}
+
+/* ── SCORING ── */
+function dayScore(k){
+  const d=state.days[k]; if(!d) return {done:0,total:totalTasks(),pct:0};
+  let done=0,total=0;
+  SECTIONS.forEach(s=>{ d.tasks[s.id].forEach(v=>{total++;if(v)done++}); });
+  return {done,total,pct:total?Math.round(done/total*100):0};
+}
+function sectionScore(dayKey,sid){
+  const d=state.days[dayKey]; if(!d) return 0;
+  const arr=d.tasks[sid]||[]; const s=SECTIONS.find(x=>x.id===sid);
+  const done=arr.filter(Boolean).length; const tot=s?s.tasks.length:0;
+  return tot?Math.round(done/tot*100):0;
+}
+function totalTasks(){ return SECTIONS.reduce((a,s)=>a+s.tasks.length,0); }
+
+function weekScore(wNum){
+  // average daily pct for days in this week
+  const scores=[];
+  Object.keys(state.days).forEach(k=>{
+    if(dayWeekNum(k)===wNum){
+      const sc=dayScore(k);
+      if(sc.done>0) scores.push(sc.pct);
+    }
+  });
+  if(!scores.length) return null;
+  return Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
+}
+
+function dayWeekNum(key){
+  // which week (1-12) does this date fall in
+  const start=new Date(state.startDate+'T00:00:00');
+  const d=new Date(key+'T00:00:00');
+  const diff=Math.floor((d-start)/(1000*60*60*24));
+  if(diff<0) return null;
+  return Math.min(12, Math.floor(diff/7)+1);
+}
+
+function overallProgress(){
+  const done = Object.keys(state.days).filter(k=>{
+    const w=dayWeekNum(k); return w!==null && w<state.currentWeek;
+  });
+  if(!done.length) return 0;
+  const scores=done.map(k=>dayScore(k).pct);
+  return Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
+}
+
+/* ── TAB SWITCHING ── */
+function switchTab(id, btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='weekly')   renderWeekly();
+  if(id==='progress') renderProgress();
+}
+
+/* ══════════════════════════════════════════
+   DAILY RENDER
+══════════════════════════════════════════ */
+function renderHeader(){
+  const d=new Date(viewDay+'T00:00:00');
+  document.getElementById('hdr-date').textContent = d.getDate()+' '+MON_ID[d.getMonth()]+' '+d.getFullYear();
+  document.getElementById('hdr-day').textContent  = DAY_ID[d.getDay()];
+  const wn = dayWeekNum(viewDay)||state.currentWeek;
+  document.getElementById('hdr-week').textContent = 'Minggu '+wn+' dari 12';
+  const q=QUOTES[d.getDay()%QUOTES.length];
+  document.getElementById('q-ar').textContent=q.ar;
+  document.getElementById('q-tr').textContent=q.tr;
+}
+
+function renderDayChips(){
+  const strip=document.getElementById('day-chips');
+  strip.innerHTML='';
+  const today=new Date();
+  for(let i=-6;i<=0;i++){
+    const d=new Date(today); d.setDate(today.getDate()+i);
+    const k=d.toISOString().slice(0,10);
+    const hasData=!!(state.days[k]&&(state.days[k].notes||Object.values(state.days[k].tasks).some(a=>a.some(Boolean))));
+    const chip=document.createElement('div');
+    chip.className='day-chip'+(k===viewDay?' active':'')+(hasData?' has-entry':'');
+    chip.innerHTML=`<div class="chip-name">${DAY_ID[d.getDay()].slice(0,3)}</div><div class="chip-num">${d.getDate()}</div><div class="chip-dot"></div>`;
+    chip.onclick=()=>{ viewDay=k; renderDaily(); };
+    strip.appendChild(chip);
+  }
+  document.getElementById('next-day').disabled = viewDay>=todayKey();
+}
+
+function renderScores(){
+  const sc=dayScore(viewDay);
+  document.getElementById('ov-score').textContent  = sc.pct+'%';
+  document.getElementById('ov-fill').style.width   = sc.pct+'%';
+  document.getElementById('ov-target').innerHTML   = sc.done+' dari '+sc.total+' tugas · Target harian <span>≥ 85%</span>';
+  SECTIONS.forEach(s=>{
+    const pct=sectionScore(viewDay,s.id);
+    document.getElementById(s.msId).textContent=pct+'%';
+  });
+}
+
+function renderSections(){
+  const container=document.getElementById('daily-sections');
+  container.innerHTML='';
+  const dayData=getDay(viewDay);
+
+  SECTIONS.forEach((s,si)=>{
+    const done=dayData.tasks[s.id].filter(Boolean).length;
+    const total=s.tasks.length;
+    const pct=Math.round(done/total*100);
+
+    const card=document.createElement('div');
+    card.className='sec-card fade-in open';
+    card.style.animationDelay=(.1+si*.06)+'s';
+
+    let tasksHtml='';
+    s.tasks.forEach((t,ti)=>{
+      const checked=dayData.tasks[s.id][ti];
+      const tagMap={wajib:'tg-wajib',sunnah:'tg-sunnah',daily:'tg-daily',target:'tg-target'};
+      const tagLabel={wajib:'🔴 Wajib',sunnah:'☀️ Sunnah',daily:'📌 Harian',target:'🎯 Target'};
+      tasksHtml+=`
+        <div class="task-row${checked?' done':''}" id="tr-${s.id}-${ti}" onclick="toggleTask('${s.id}',${ti})">
+          <div class="cbox${checked?' '+s.chClass:''}"><span class="chk">✓</span></div>
+          <div class="task-body">
+            <div class="task-txt">${t.t}</div>
+            ${t.time?`<div class="task-time">⏱ ${t.time}</div>`:''}
+          </div>
+          ${t.tag?`<span class="task-tag ${tagMap[t.tag]}">${tagLabel[t.tag]}</span>`:''}
+        </div>`;
+    });
+
+    card.innerHTML=`
+      <div class="sec-head" onclick="toggleSection(this.parentElement)">
+        <div class="sec-icon ${s.icClass}">${s.icon}</div>
+        <div class="sec-info">
+          <div class="sec-name">${s.name}</div>
+          <div class="sec-sub">${s.sub}</div>
+        </div>
+        <div class="sec-badge ${s.sbClass}">${pct}%</div>
+        <div class="sec-chevron">▶</div>
+      </div>
+      <div class="task-list">${tasksHtml}</div>`;
+    container.appendChild(card);
+  });
+
+  // notes
+  document.getElementById('daily-notes').value = dayData.notes||'';
+}
+
+function toggleSection(card){
+  card.classList.toggle('open');
+  const list=card.querySelector('.task-list');
+  list.style.display = card.classList.contains('open') ? '' : 'none';
+}
+
+function toggleTask(sid,ti){
+  const d=getDay(viewDay);
+  d.tasks[sid][ti]=!d.tasks[sid][ti];
+  const checked=d.tasks[sid][ti];
+  const sec=SECTIONS.find(s=>s.id===sid);
+  const row=document.getElementById('tr-'+sid+'-'+ti);
+  if(row){
+    row.classList.toggle('done',checked);
+    const box=row.querySelector('.cbox');
+    box.className='cbox'+(checked?' '+sec.chClass:'');
+  }
+  // animate
+  if(checked){ const box=document.getElementById('tr-'+sid+'-'+ti).querySelector('.cbox'); box.style.animation='pop .3s ease'; setTimeout(()=>box.style.animation='',300); }
+  // update badges
+  const done=d.tasks[sid].filter(Boolean).length;
+  const total=sec.tasks.length;
+  const pct=Math.round(done/total*100);
+  const card=document.getElementById('tr-'+sid+'-'+ti).closest('.sec-card');
+  card.querySelector('.sec-badge').textContent=pct+'%';
+  autoSave();
+  renderScores();
+}
+
+function renderDaily(){
+  renderHeader();
+  renderDayChips();
+  renderScores();
+  renderSections();
+}
+
+function navDay(d){
+  const dt=new Date(viewDay+'T00:00:00'); dt.setDate(dt.getDate()+d);
+  const nk=dt.toISOString().slice(0,10);
+  if(nk>todayKey()) return;
+  viewDay=nk; renderDaily();
+}
+
+/* ══════════════════════════════════════════
+   WEEKLY RENDER
+══════════════════════════════════════════ */
+function renderWeekly(){
+  // week grid
+  const grid=document.getElementById('week-grid');
+  grid.innerHTML='';
+  for(let w=1;w<=12;w++){
+    const sc=weekScore(w);
+    const isCur=w===state.currentWeek;
+    const isFuture=w>state.currentWeek;
+    const cell=document.createElement('div');
+    cell.className='week-cell'+(isCur?' current':'');
+    const pctNum= sc===null ? (isFuture?0:0) : sc;
+    const scoreClass= sc===null?'':sc>=85?'target-hit':sc>0?'':'';
+    const barColor= isFuture?'var(--bg4)':sc===null?'var(--bg4)':sc>=85?'var(--green)':sc>=50?'var(--gold)':'var(--rose)';
+
+    // dots for area
+    let dotsHtml='';
+    const daysInWeek=Object.keys(state.days).filter(k=>dayWeekNum(k)===w);
+    daysInWeek.slice(0,7).forEach(k=>{
+      const ds=dayScore(k);
+      const cls=ds.pct>=85?'dot-full':ds.pct>0?'dot-partial':'dot-empty';
+      dotsHtml+=`<div class="wc-dot ${cls}" title="${k}: ${ds.pct}%"></div>`;
+    });
+    if(!daysInWeek.length && !isFuture) dotsHtml='';
+    const futureStr=isFuture?'<div style="font-size:10px;color:var(--text3);margin-top:6px">Akan datang</div>':'';
+
+    cell.innerHTML=`
+      <div class="wc-num">MINGGU ${w}</div>
+      <div class="wc-score ${scoreClass}">${sc!==null?sc+'%':'—'}</div>
+      <div class="wc-bar"><div class="wc-bar-fill" style="width:${pctNum}%;background:${barColor}"></div></div>
+      <div class="wc-dots">${dotsHtml}</div>
+      ${futureStr}`;
+    cell.onclick=()=>{ viewWeekSel=w; renderWeekly(); };
+    grid.appendChild(cell);
+  }
+
+  // week selector
+  document.getElementById('wk-sel-label').textContent = 'Refleksi Minggu '+viewWeekSel+' dari 12';
+  document.getElementById('refl-week-num').textContent = viewWeekSel;
+  const refl=state.weeks[viewWeekSel-1].refl;
+  document.getElementById('refl-win').value=refl.win||'';
+  document.getElementById('refl-improve').value=refl.improve||'';
+  document.getElementById('refl-obstacle').value=refl.obstacle||'';
+  document.getElementById('refl-ibadah').value=refl.ibadah||'';
+
+  // day breakdown
+  renderWeekDayBreakdown();
+}
+
+function renderWeekDayBreakdown(){
+  document.getElementById('wkbd-num').textContent=viewWeekSel;
+  const c=document.getElementById('wkbd-content');
+  c.innerHTML='';
+  const days=Object.keys(state.days).filter(k=>dayWeekNum(k)===viewWeekSel).sort();
+  if(!days.length){
+    c.innerHTML='<div style="color:var(--text3);font-size:13px;padding:8px 0">Belum ada data harian untuk minggu ini.</div>';
+    return;
+  }
+  days.forEach(k=>{
+    const sc=dayScore(k);
+    const d=new Date(k+'T00:00:00');
+    const color=sc.pct>=85?'var(--green)':sc.pct>=50?'var(--gold)':'var(--rose)';
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border)';
+    row.innerHTML=`
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--text3);min-width:80px">${DAY_ID[d.getDay()]}, ${d.getDate()} ${MON_ID[d.getMonth()]}</div>
+      <div style="flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden"><div style="height:100%;width:${sc.pct}%;background:${color};border-radius:3px;transition:width .4s"></div></div>
+      <div style="font-family:var(--font-mono);font-size:12px;color:${color};font-weight:500;min-width:36px;text-align:right">${sc.pct}%</div>
+      <div style="font-size:11px;color:var(--text3)">${sc.done}/${sc.total}</div>`;
+    c.appendChild(row);
+  });
+}
+
+function navWeekSel(d){
+  viewWeekSel=Math.max(1,Math.min(12,viewWeekSel+d));
+  renderWeekly();
+}
+
+function saveWeeklyReflection(){
+  const refl=state.weeks[viewWeekSel-1].refl;
+  refl.win=document.getElementById('refl-win').value;
+  refl.improve=document.getElementById('refl-improve').value;
+  refl.obstacle=document.getElementById('refl-obstacle').value;
+  refl.ibadah=document.getElementById('refl-ibadah').value;
+  if(viewWeekSel===state.currentWeek && state.currentWeek<12){
+    state.currentWeek++;
+    viewWeekSel=state.currentWeek;
+  }
+  saveState(); renderWeekly();
+}
+
+function saveWeeklyReflectionOnly(){
+  const refl=state.weeks[viewWeekSel-1].refl;
+  refl.win=document.getElementById('refl-win').value;
+  refl.improve=document.getElementById('refl-improve').value;
+  refl.obstacle=document.getElementById('refl-obstacle').value;
+  refl.ibadah=document.getElementById('refl-ibadah').value;
+  saveState();
+}
+
+/* ══════════════════════════════════════════
+   PROGRESS RENDER
+══════════════════════════════════════════ */
+function renderProgress(){
+  const ov=overallProgress();
+  document.getElementById('prog-overall').textContent=ov+'%';
+  document.getElementById('prog-weeks-done').textContent=state.currentWeek-1;
+
+  // timeline rows
+  const rows=document.getElementById('tl-rows');
+  rows.innerHTML='';
+  for(let w=1;w<=12;w++){
+    const sc=weekScore(w);
+    const isCur=w===state.currentWeek;
+    const isFut=w>state.currentWeek;
+    const row=document.createElement('div');
+    row.className='tl-row';
+    let fillCls='fill-future';
+    let pctNum=0;
+    let label='—';
+    if(isCur){ fillCls='fill-current'; pctNum=sc||0; label='aktif'; }
+    else if(!isFut && sc!==null){ pctNum=sc; label=sc+'%'; fillCls=sc>=85?'fill-good':sc>=50?'fill-ok':'fill-low'; }
+    row.innerHTML=`
+      <div class="tl-week ${isCur?'cur':''}">Minggu ${w}</div>
+      <div class="tl-track"><div class="tl-fill ${fillCls}" style="width:${pctNum}%"></div></div>
+      <div class="tl-pct">${label}</div>`;
+    rows.appendChild(row);
+  }
+
+  // area breakdown
+  const ab=document.getElementById('area-breakdown');
+  ab.innerHTML='';
+  const colorMap={ib:'var(--gold)',wp:'var(--blue)',en:'var(--green)',des:'var(--violet)',fam:'var(--rose)'};
+  SECTIONS.forEach(s=>{
+    // average across all days
+    const days=Object.keys(state.days);
+    let scores=[];
+    days.forEach(k=>{ if(dayWeekNum(k)!==null) scores.push(sectionScore(k,s.id)); });
+    const avg=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):0;
+    const card=document.createElement('div');
+    card.className='ab-card';
+    card.innerHTML=`
+      <div class="ab-icon">${s.icon}</div>
+      <div class="ab-name">${s.name}</div>
+      <div class="ab-pct">${avg}%</div>
+      <div class="ab-bar"><div class="ab-fill" style="width:${avg}%;background:${colorMap[s.id]}"></div></div>`;
+    ab.appendChild(card);
+  });
+}
+
+/* ══════════════════════════════════════════
+   UTILITIES
+══════════════════════════════════════════ */
+function autoSave(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>saveState(),700);
+}
+
+function forceSave(){
+  const notes=document.getElementById('daily-notes');
+  if(notes) getDay(viewDay).notes=notes.value;
+  saveState();
+}
+
+function resetToday(){
+  if(!confirm('Reset semua centang untuk hari '+viewDay+'?')) return;
+  const d=getDay(viewDay);
+  SECTIONS.forEach(s=>{ d.tasks[s.id]=new Array(s.tasks.length).fill(false); });
+  d.notes='';
+  saveState(); renderDaily();
+}
+
+function newCycle(){
+  if(!confirm('Mulai siklus 12 minggu baru?\nSemua data siklus ini akan dihapus.')) return;
+  state=defaultState(); viewDay=todayKey(); viewWeekSel=1;
+  saveState(); renderDaily();
+}
+
+/* notes auto-save */
+document.getElementById('daily-notes').addEventListener('input',()=>{
+  getDay(viewDay).notes=document.getElementById('daily-notes').value;
+  autoSave();
+});
+
+/* ── INIT ── */
+renderDaily();
+</script>
+</body>
+</html>
